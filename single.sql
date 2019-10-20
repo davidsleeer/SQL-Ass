@@ -181,3 +181,34 @@ AND B.EventDay = E.EventDay
 AND B.TourName = E.TourName
 INNER JOIN Tour T
 ON E.TourName = T.TourName;
+
+
+SELECT Count(DateBooked) from Booking;
+
+/*
+
+Ther are 10 trips from my qeury result and the query above shows same number
+as task 4.1.
+
+*/
+
+SELECT TourName, EventMonth, Count(ClientID) FROM Booking
+GROUP BY EventMonth, TourName;
+
+/*
+
+This query just collect data from Booking Group by and 
+There are same result from the query used in Task 4.2.
+
+*/
+
+SELECT B.* 
+FROM Booking B
+WHERE B.payment > (SELECT avg(Payment) FROM Booking);
+/*
+
+The query here select the bookings where above avg of payment.
+The avg is 200, and my query shows all that is over 200, and there are 3 payment is 225.
+Same as the query in Task 4.3
+
+*/
