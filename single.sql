@@ -128,3 +128,41 @@ VALUES (2, 'WEST', 'Jan', 29, 2016, 225, '17-Dec-2015');
 INSERT INTO Booking (ClientID, TourName, EventMonth, EventDay, EventYear,
 Payment, Datebooked)
 VALUES (3, 'WEST', 'Jan', 29, 2016, 200, '18-Dec-2015');
+
+SELECT C.Surname, C.GivenName, T.TourName, 
+T.Description, E.EventYear, E.EventMonth, E.EventDay, E.EventFee,
+B.Payment, B.DateBooked
+FROM Booking B
+INNER JOIN Client C
+ON B.ClientID = C.ClientID
+INNER JOIN Event E
+ON B.EventYear = E.EventYear
+AND B.EventMonth = E.EventMonth
+AND B.EventDay = E.EventDay
+AND B.TourName = E.TourName
+INNER JOIN Tour T
+ON E.TourName = T.TourName;
+
+SELECT E.EventMonth, T.TourName, Count(B.DateBooked) AS "NUM BOOKING"
+FROM Booking B
+INNER JOIN Event E
+ON B.EventYear = E.EventYear
+AND B.EventMonth = E.EventMonth
+AND B.EventDay = E.EventDay
+AND B.TourName = E.TourName
+INNER JOIN Tour T
+ON E.TourName = T.TourName
+GROUP BY E.EventMonth, T.TourName; 
+
+SELECT B.* 
+FROM Booking B
+INNER JOIN Event E
+ON B.EventYear = E.EventYear
+AND B.EventMonth = E.EventMonth
+AND B.EventDay = E.EventDay
+AND B.TourName = E.TourName
+INNER JOIN Tour T
+ON E.TourName = T.TourName
+INNER JOIN Client C
+ON B.ClientID = C.ClientID
+WHERE B.payment > (SELECT avg(Payment) FROM Booking);
